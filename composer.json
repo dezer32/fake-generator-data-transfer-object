@@ -1,0 +1,28 @@
+{
+  "name": "dezer/fake-generator-data-transfer-object",
+  "description": "Autogenerate fake for data-transfer-object",
+  "type": "library",
+  "license": "GNU GPL",
+  "autoload": {
+    "psr-4": {
+      "Dezer\\FakeGeneratorDataTransferObject\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Dezer",
+      "email": "mr.vladkuz@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.4",
+    "spatie/data-transfer-object": "^2.8",
+    "fakerphp/faker": "^1.14"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.3",
+    "phpunit/phpunit": "^9.5",
+    "psy/psysh": "^0.10.8"
+  }
+}
