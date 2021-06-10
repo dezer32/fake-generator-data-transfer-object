@@ -12,9 +12,10 @@ use Spatie\DataTransferObject\DataTransferObject;
 class Faker
 {
     /**
+     * @return DataTransferObject|mixed
      * @throws ReflectionException
      */
-    public static function make(string $className): DataTransferObject
+    public static function make(string $className)
     {
         $dataTransferObjectClass = new DataTransferObjectClass($className);
 
