@@ -24,6 +24,9 @@ class Faker
         return new $className($array);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private static function makeArray(DataTransferObjectClass $class): array
     {
         $result = [];

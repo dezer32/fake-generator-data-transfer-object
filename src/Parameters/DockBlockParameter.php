@@ -50,12 +50,18 @@ class DockBlockParameter extends AbstractParameter
         return $this->arguments;
     }
 
+    /**
+     * @return mixed
+     */
     public function getFakeValue(?Generator $faker = null)
     {
         $fakeValue = call_user_func_array([$this->getFaker($faker), $this->method], $this->arguments);
         return $this->modifyByTypehint($fakeValue);
     }
 
+    /**
+     * @return mixed
+     */
     private function modifyByTypehint($fakeValue)
     {
         switch ($this->typehint) {

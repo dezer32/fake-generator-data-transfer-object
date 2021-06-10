@@ -73,6 +73,9 @@ class DataTransferObjectProperty
         return VerifyDataTransferObjectClass::isDataTransferObjectClass($this->getType());
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function getChildDataTransferObjectCollectionClass(): ?DataTransferObjectCollectionClass
     {
         if (!$this->isDataTransferObjectCollectionClass()) {

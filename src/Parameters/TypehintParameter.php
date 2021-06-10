@@ -21,6 +21,9 @@ class TypehintParameter extends AbstractParameter
         $this->typehint = $typehint;
     }
 
+    /**
+     * @return mixed
+     */
     public function getFakeValue(?Generator $faker = null)
     {
         return call_user_func([$this->getFaker($faker), $this->getRule()]);
