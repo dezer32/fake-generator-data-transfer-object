@@ -71,7 +71,7 @@ class DockBlockParameter extends AbstractParameter
             case 'string':
                 $fakeValue = (string) $fakeValue;
                 break;
-            case 'boolean':
+            case 'bool':
                 $fakeValue = (bool) $fakeValue;
                 break;
         }
