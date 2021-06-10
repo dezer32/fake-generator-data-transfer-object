@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Dezer\FakeGeneratorDataTransferObject;
 
 use Dezer\FakeGeneratorDataTransferObject\Reflection\DataTransferObjectClass;
+use InvalidArgumentException;
+use ReflectionException;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class Faker
 {
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function make(string $className): DataTransferObject
     {
@@ -21,7 +23,7 @@ class Faker
         return new $className($array);
     }
 
-    public static function makeArray(DataTransferObjectClass $class): array
+    private static function makeArray(DataTransferObjectClass $class): array
     {
         $result = [];
         foreach ($class->getProperties() as $property) {
@@ -32,8 +34,17 @@ class Faker
                 $item = $property->getTypehintParameter()->getFakeValue();
             } elseif ($property->isDataTransferObjectClass()) {
                 $item = self::makeArray($property->getChildDataTransferObjectClass());
+            } elseif (
+                $property->isDataTransferObjectCollectionClass()
+                && $property->getChildDataTransferObjectCollectionClass() !== null
+            ) {
+                $item = [
+                    self::makeArray(
+                        $property->getChildDataTransferObjectCollectionClass()->getChildDataTransferObjectClass()
+                    )
+                ];
             } else {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf('Unknown type %s on property %s.', $property->getType(), $property->getName())
                 );
             }

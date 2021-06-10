@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Dezer\FakeGeneratorDataTransferObject\Reflection;
 
+use Dezer\FakeGeneratorDataTransferObject\Helpers\VerifyDataTransferObjectClass;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\DockBlockParameter;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\TypehintParameter;
 use ReflectionException;
 use ReflectionParameter;
 use ReflectionProperty;
-use Spatie\DataTransferObject\DataTransferObject;
 
 class DataTransferObjectProperty
 {
@@ -70,6 +70,20 @@ class DataTransferObjectProperty
 
     public function isDataTransferObjectClass(): bool
     {
-        return in_array(DataTransferObject::class, class_parents($this->getType()), true);
+        return VerifyDataTransferObjectClass::isDataTransferObjectClass($this->getType());
+    }
+
+    public function getChildDataTransferObjectCollectionClass(): ?DataTransferObjectCollectionClass
+    {
+        if (!$this->isDataTransferObjectCollectionClass()) {
+            return null;
+        }
+
+        return new DataTransferObjectCollectionClass($this->getType());
+    }
+
+    public function isDataTransferObjectCollectionClass(): bool
+    {
+        return VerifyDataTransferObjectClass::isDataTransferObjectCollectionClass($this->getType());
     }
 }
