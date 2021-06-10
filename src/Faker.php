@@ -34,10 +34,7 @@ class Faker
                 $item = $property->getTypehintParameter()->getFakeValue();
             } elseif ($property->isDataTransferObjectClass()) {
                 $item = self::makeArray($property->getChildDataTransferObjectClass());
-            } elseif (
-                $property->isDataTransferObjectCollectionClass()
-                && $property->getChildDataTransferObjectCollectionClass() !== null
-            ) {
+            } elseif ($property->isDataTransferObjectCollectionClass()) {
                 $item = [
                     self::makeArray(
                         $property->getChildDataTransferObjectCollectionClass()->getChildDataTransferObjectClass()
