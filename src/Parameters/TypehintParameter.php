@@ -11,6 +11,8 @@ class TypehintParameter extends AbstractParameter
     private array $rules = [
         'string' => 'word',
         'int' => 'randomDigitNotNull',
+        'float' => 'randomFloat',
+        'array' => 'shuffleArray',
         'bool' => 'boolean',
         'DateTimeInterface' => 'dateTime'
     ];
