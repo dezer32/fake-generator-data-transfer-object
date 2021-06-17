@@ -39,11 +39,18 @@ class Faker
             } elseif ($property->isDataTransferObjectClass()) {
                 $item = self::makeArray($property->getChildDataTransferObjectClass());
             } elseif ($property->isDataTransferObjectCollectionClass()) {
-                $item = [
-                    self::makeArray(
-                        $property->getChildDataTransferObjectCollectionClass()->getChildDataTransferObjectClass()
-                    )
-                ];
+                $dtoCollection = $property->getChildDataTransferObjectCollectionClass();
+                if ($dtoCollection !== null && !$dtoCollection->isDataTransferObjectClass()) {
+                    $item = [
+                        [$dtoCollection->getParameter()->getFakeValue()]
+                    ];
+                } else {
+                    $item = [
+                        self::makeArray(
+                            $dtoCollection->getChildDataTransferObjectClass()
+                        )
+                    ];
+                }
             } else {
                 throw new InvalidArgumentException(
                     sprintf('Unknown type %s on property %s.', $property->getType(), $property->getName())

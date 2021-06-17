@@ -11,11 +11,19 @@ class VerifyDataTransferObjectClass
 {
     public static function isDataTransferObjectClass(string $className): bool
     {
-        return in_array(DataTransferObject::class, class_parents($className), true);
+        try {
+            return in_array(DataTransferObject::class, class_parents($className), true);
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     public static function isDataTransferObjectCollectionClass(string $className): bool
     {
-        return in_array(DataTransferObjectCollection::class, class_parents($className), true);
+        try {
+            return in_array(DataTransferObjectCollection::class, class_parents($className), true);
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }

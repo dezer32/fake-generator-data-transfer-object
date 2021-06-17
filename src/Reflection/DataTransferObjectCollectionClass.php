@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dezer\FakeGeneratorDataTransferObject\Reflection;
 
 use Dezer\FakeGeneratorDataTransferObject\Helpers\VerifyDataTransferObjectClass;
+use Dezer\FakeGeneratorDataTransferObject\Parameters\TypehintParameter;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -26,7 +27,7 @@ class DataTransferObjectCollectionClass
         $this->collectionClassName = $collectionClassName;
         if (!$this->isDataTransferObjectCollectionClass()) {
             throw new InvalidArgumentException(
-                sprintf(self::CLASS_NOT_DATA_TRANSFER_OBJECT_COLLECTION, $this->className)
+                sprintf(self::CLASS_NOT_DATA_TRANSFER_OBJECT_COLLECTION, $this->collectionClassName)
             );
         }
 
@@ -58,7 +59,12 @@ class DataTransferObjectCollectionClass
 
     public function isPossible(): bool
     {
-        return $this->className !== null;
+        return $this->getClassName() !== null;
+    }
+
+    private function getClassName(): ?string
+    {
+        return $this->className ??= $this->reflectionClass->getMethod('current')->getReturnType()->getName();
     }
 
     /**
@@ -70,11 +76,16 @@ class DataTransferObjectCollectionClass
             return null;
         }
 
-        return new DataTransferObjectClass($this->className);
+        return new DataTransferObjectClass($this->getClassName());
     }
 
     public function isDataTransferObjectClass(): bool
     {
-        return VerifyDataTransferObjectClass::isDataTransferObjectClass($this->className);
+        return VerifyDataTransferObjectClass::isDataTransferObjectClass($this->getClassName());
+    }
+
+    public function getParameter(): TypehintParameter
+    {
+        return new TypehintParameter($this->getClassName());
     }
 }
