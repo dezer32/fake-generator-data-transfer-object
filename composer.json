@@ -2,7 +2,7 @@
   "name": "dezer/fake-generator-data-transfer-object",
   "description": "Autogenerate fake for data-transfer-object",
   "type": "library",
-  "license": "GNU GPL",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Dezer\\FakeGeneratorDataTransferObject\\": "src/"
