@@ -8,6 +8,11 @@
       "Dezer\\FakeGeneratorDataTransferObject\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Dezer\\FakeGeneratorDataTransferObject\\Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Dezer",
@@ -18,7 +23,9 @@
   "require": {
     "php": "^7.4",
     "spatie/data-transfer-object": "^2.8",
-    "fakerphp/faker": "^1.14"
+    "fakerphp/faker": "^1.14",
+    "myclabs/php-enum": "^1.8",
+    "ramsey/uuid": "^4.1"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.3",
