@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Dezer\FakeGeneratorDataTransferObject\Reflection;
 
-use Dezer\FakeGeneratorDataTransferObject\Helpers\VerifyDataTransferObjectClass;
+use Dezer\FakeGeneratorDataTransferObject\Factories\ParameterGeneratorFactory;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\DockBlockParameter;
+use Dezer\FakeGeneratorDataTransferObject\Parameters\ParameterGeneratorInterface;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\TypehintParameter;
-use ReflectionException;
 use ReflectionParameter;
 use ReflectionProperty;
 
@@ -24,14 +24,14 @@ class DataTransferObjectProperty
         $this->reflectionProperty = $reflectionProperty;
     }
 
-    public function getDocParameter(): ?DockBlockParameter
+    public function getGenerator(): ParameterGeneratorInterface
     {
-        $this->dockBlockParameter ??= new DockBlockParameter(
-            $this->getDockBlock(),
-            $this->getType()
+        return ParameterGeneratorFactory::factory(
+            $this->getType(),
+            [
+                'doc_block' => $this->getDockBlock()
+            ]
         );
-
-        return $this->dockBlockParameter->isPossible() ? $this->dockBlockParameter : null;
     }
 
     private function getDockBlock(): string
@@ -48,45 +48,5 @@ class DataTransferObjectProperty
     public function getName(): string
     {
         return $this->reflectionProperty->getName();
-    }
-
-    public function getTypehintParameter(): ?TypehintParameter
-    {
-        $this->typehintParameter ??= new TypehintParameter($this->getType());
-        return $this->typehintParameter->isPossible() ? $this->typehintParameter : null;
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function getChildDataTransferObjectClass(): ?DataTransferObjectClass
-    {
-        if (!$this->isDataTransferObjectClass()) {
-            return null;
-        }
-
-        return new DataTransferObjectClass($this->getType());
-    }
-
-    public function isDataTransferObjectClass(): bool
-    {
-        return VerifyDataTransferObjectClass::isDataTransferObjectClass($this->getType());
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function getChildDataTransferObjectCollectionClass(): ?DataTransferObjectCollectionClass
-    {
-        if (!$this->isDataTransferObjectCollectionClass()) {
-            return null;
-        }
-
-        return new DataTransferObjectCollectionClass($this->getType());
-    }
-
-    public function isDataTransferObjectCollectionClass(): bool
-    {
-        return VerifyDataTransferObjectClass::isDataTransferObjectCollectionClass($this->getType());
     }
 }

@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace Dezer\FakeGeneratorDataTransferObject\Parameters;
 
-use Faker\Generator;
+use Dezer\FakeGeneratorDataTransferObject\Parameters\Exceptions\ParameterGeneratorInvalidArgumentException;
+use Dezer\FakeGeneratorDataTransferObject\Traits\WithFaker;
 
-class DockBlockParameter extends AbstractParameter
+class DockBlockGenerator implements ParameterGeneratorInterface
 {
+    use WithFaker;
+
     private const DOCKBLOCK_REGEX = "/@fakegenerator\s+([\w]+)\s*(?:\((?:(.*))\))*/ix";
-    private string $docBlock;
     private string $typehint;
+    private string $docBlock;
     private ?string $method;
     private array $arguments;
 
-    /**
-     */
-    public function __construct(string $docBlock, string $typehint)
+    public function __construct(string $typehint, string $docBlock)
     {
-        $this->docBlock = $docBlock;
         $this->typehint = $typehint;
+        $this->docBlock = $docBlock;
+
         $this->parseDoc();
     }
 
@@ -35,28 +37,11 @@ class DockBlockParameter extends AbstractParameter
         $this->arguments = explode('", "', trim($matches[2] ?? '', '"'));
     }
 
-    public function isPossible(): bool
+    public function generate()
     {
-        return $this->method !== null;
-    }
+        $value = call_user_func_array([$this->getFaker(), $this->method], $this->arguments);
 
-    public function getMethod(): ?string
-    {
-        return $this->method;
-    }
-
-    public function getArguments(): ?array
-    {
-        return $this->arguments;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFakeValue(?Generator $faker = null)
-    {
-        $fakeValue = call_user_func_array([$this->getFaker($faker), $this->method], $this->arguments);
-        return $this->modifyByTypehint($fakeValue);
+        return $this->modifyByTypehint($value);
     }
 
     /**
@@ -77,5 +62,18 @@ class DockBlockParameter extends AbstractParameter
         }
 
         return $fakeValue;
+    }
+
+    public function isPossible(): bool
+    {
+        return $this->method !== null;
+    }
+
+    public static function with(string $type, array $parameters): ParameterGeneratorInterface
+    {
+        if (!isset($parameters['doc_block'])) {
+            throw new ParameterGeneratorInvalidArgumentException('Property doc_block not found.');
+        }
+        return new self($type, $parameters['doc_block']);
     }
 }
