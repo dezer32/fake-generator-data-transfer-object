@@ -25,7 +25,7 @@ class CarbonGenerator implements ParameterGeneratorInterface
 
     public function generate()
     {
-        return Carbon::from($this->faker->dateTime());
+        return new Carbon($this->faker->dateTime());
     }
 
     public function isPossible(): bool
