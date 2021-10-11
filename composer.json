@@ -25,7 +25,8 @@
     "spatie/data-transfer-object": "^2.8",
     "fakerphp/faker": "^1.14",
     "myclabs/php-enum": "^1.8",
-    "ramsey/uuid": "^4.1"
+    "ramsey/uuid": "^4.1",
+    "nesbot/carbon": "^2.53"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.3",

@@ -17,7 +17,6 @@ class TypehintGenerator implements ParameterGeneratorInterface
         'array' => 'shuffleArray',
         'bool' => 'boolean',
         'DateTimeInterface' => 'dateTime',
-        'Carbon\Carbon' => 'dateTime',
     ];
     private string $typehint;
 
