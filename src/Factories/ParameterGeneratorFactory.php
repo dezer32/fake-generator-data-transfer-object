@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dezer\FakeGeneratorDataTransferObject\Factories;
 
+use Dezer\FakeGeneratorDataTransferObject\Parameters\CarbonGenerator;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\DockBlockGenerator;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\EnumGenerator;
 use Dezer\FakeGeneratorDataTransferObject\Parameters\Exceptions\ParameterGeneratorInvalidArgumentException;
@@ -18,6 +19,7 @@ class ParameterGeneratorFactory implements ParameterGeneratorFactoryInterface
         TypehintGenerator::class,
         EnumGenerator::class,
         UUIDGenerator::class,
+        CarbonGenerator::class,
     ];
 
     public static function factory(string $type, array $parameters): ?ParameterGeneratorInterface
