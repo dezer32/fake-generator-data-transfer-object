@@ -23,7 +23,7 @@
   "require": {
     "php": "^7.4 || ^8.0",
     "spatie/data-transfer-object": "^2.8",
-    "fakerphp/faker": "^1.14",
+    "fakerphp/faker": "^1.0",
     "myclabs/php-enum": "^1.8",
     "ramsey/uuid": "^4.1",
     "nesbot/carbon": "^2.0"
